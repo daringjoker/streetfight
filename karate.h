@@ -11,6 +11,7 @@
 #define STREETFIGHT_PLAYER1_H
 #include <SDL2/SDL.h>
 #include <vector>
+#include <iostream>
 using namespace std;
 class player1
     {
@@ -26,6 +27,9 @@ class player1
         vector <SDL_Rect> idleframes;
         vector <SDL_Rect> forwardframes;
         vector <SDL_Rect> backwardframes;
+        vector <SDL_Rect> kickframes;
+        vector <SDL_Rect> punchframes;
+        vector <SDL_Rect> jumpframes;
 
 
     public:
@@ -33,6 +37,9 @@ class player1
         void walkf();
         void walkb();
         void idle();
+        void jump();
+        void kick();
+        void punch();
         SDL_Rect getPlayerRect();
 
 
