@@ -3,5 +3,5 @@ project(streetfight)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(streetfight main.cpp player1.cpp player1.h)
+add_executable(streetfight main.cpp player.cpp player.h AI.h AI.cpp)
 target_link_libraries(streetfight SDL2 SDL2main)
