@@ -17,15 +17,9 @@ enum action{cwalkf,cwalkb,cjump,ckick,cpunch,cidle};
 class player
     {
     public:
-        int x=0;
-        int y=350;
-        bool noted=false;
         player *opponent;
-        float health=100;
         float strength=60;
-        int frame_count=0;
         bool left;
-        action current_action=cidle;
         SDL_RendererFlip flip;
         SDL_Renderer *renderer;
         SDL_Texture * spritesheet;
@@ -46,6 +40,12 @@ class player
         void render(SDL_Rect* source, SDL_Rect* dest);
 
     public:
+        int frame_count=0;
+        int x=0;
+        float health=100;
+        int y=350;
+        bool noted=false;
+        action current_action=cidle;
         explicit player(SDL_Renderer *renderer,bool left=true);
         void set_opponent(player* opp);
         void update();

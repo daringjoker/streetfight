@@ -11,6 +11,7 @@
 #include<SDL2/SDL.h>
 #include "player.h"
 #include "AI.h"
+#include "network.h"
 bool running= true;
 using namespace std;
 void handle_event(player &p1,player &p2)
@@ -73,18 +74,23 @@ int main()
         SDL_Texture *stage=SDL_CreateTextureFromSurface(Ren,temp);
         SDL_FreeSurface(temp);
         player dummy(Ren);
-        player opponent(Ren);
-        player self(Ren,false);
-        AI computer1(opponent,self);
+        bool host;
+        cout<<"Become the host? ";
+        cin>> host;
+        player opponent(Ren,!host);
+        player self(Ren,host);
+        //AI computer1(opponent,self);
         opponent.set_opponent(&self);
         self.set_opponent(&opponent);
+        network net(opponent,self,host);
         while (running)
         {
             handle_event(self,dummy);
-            computer1.drive();
+            //computer1.drive();
             SDL_RenderCopy(Ren, stage, nullptr, nullptr);
             self.update();
             opponent.update();
+            net.send_state();
             SDL_RenderPresent(Ren);
             SDL_Delay(25);
         }
