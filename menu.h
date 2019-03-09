@@ -33,23 +33,23 @@ class menu
         vector<SDL_Rect> buttons;
         vector<bool> focus;
         TTF_Font * font;
+        TTF_Font * bigfont;
         SDL_Color color;
         SDL_Color highlight;
         void handle_event();
         void show_button(int x, string text);
         level current_level=cmain;
         SDL_Renderer *renderer;
-        void playerselect();
         void back();
         void save_state();
         void clicked(int x, int y);
 
     public:
         explicit menu(SDL_Renderer *renderer);
-        bool team_red;
-        bool single_player;
-        bool net;
-        bool two_on_one;
+        bool team_red=false;
+        bool single_player=false;
+        bool net=false;
+        bool two_on_one=false;
         void display();
 
 

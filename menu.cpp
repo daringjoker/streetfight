@@ -72,11 +72,13 @@ void menu::display()
                     show_button(1, "Over Lan");
                     show_button(2, "On Single Computer");
                     break;
+                case cabout:
+                    show_button(0,"Back");
+                    break;
                 case ccolor:
                     show_button(0,"Back");
                     show_button(1, "RED on Right");
                     show_button(2, "BLUE on Left");
-                    playerselect();
                     break;
             }
             SDL_RenderPresent(renderer);
@@ -84,73 +86,6 @@ void menu::display()
         }
         return;
     }
-
-
-
-menu::menu(SDL_Renderer *renderer)
-    {
-        this->renderer=renderer;
-        buttons.push_back({50,20,100,40});
-        buttons.push_back({600,200,300,40});
-        buttons.push_back({600,260,300,40});
-        buttons.push_back({600,320,300,40});
-        buttons.push_back({600,380,300,40});
-        buttons.push_back({600,440,300,40});
-        focus.push_back(false);
-        focus.push_back(false);
-        focus.push_back(false);
-        focus.push_back(false);
-        focus.push_back(false);
-        if (TTF_Init()<0) cout<<"to hell with init"<<endl;
-        font = TTF_OpenFont("Xanadu.ttf", 25);
-        if (font== nullptr)cout<<"Hell  "<< TTF_GetError()<<endl;
-        color = { 242, 226, 53 };
-        highlight={48, 209, 48};
-        SDL_Surface *temp=SDL_LoadBMP("ryu.bmp");
-        background=SDL_CreateTextureFromSurface(renderer,temp);
-        SDL_FreeSurface(temp);
-    }
-
-
-
-void menu::show_button(int x, string text)
-    {
-        SDL_Rect current=buttons[x];
-        SDL_Surface * surface = TTF_RenderText_Solid(font,text.c_str(),((focus[x])?highlight:color));
-//        cout<<"show button called with text= '"<<text << "' and rect is "<<current.y<<endl;
-        SDL_Texture * texture = SDL_CreateTextureFromSurface(renderer, surface);
-        int texW = 0;
-        int texH = 0;
-        SDL_QueryTexture(texture, NULL, NULL, &texW, &texH);
-        current.x=current.x+(current.w-texW)/2;
-        current.y=current.y+(current.h-texH)/2;
-        current.w=texW;
-        current.h=texH;
-        SDL_RenderCopy(renderer, texture, NULL,&current);
-        SDL_FreeSurface(surface);
-        SDL_DestroyTexture(texture);
-    }
-
-
-
-void menu::playerselect()
-    {
-
-    }
-
-
-
-void menu::back()
-    {
-        two_on_one=trace_back.back().two_on_one;
-        net=trace_back.back().net;
-        single_player=trace_back.back().single_player;
-        team_red=trace_back.back().team_red;
-        current_level=trace_back.back().currentlevel;
-        trace_back.pop_back();
-    }
-
-
 
 void menu::clicked(int x, int y)
     {
@@ -227,17 +162,85 @@ void menu::clicked(int x, int y)
                     case 1 :
                         team_red= true;
                         showing= false;
-//                        save_state();
+                        //                        save_state();
                         break;
                     case 2:
                         team_red= false;
                         showing= false;
-//                        save_state();
+                        //                        save_state();
+                        break;
+                }
+                break;
+            case cabout:
+                switch(inrect)
+                {
+                    case 0:
+                        back();
                         break;
                 }
                 break;
         }
     }
+
+
+menu::menu(SDL_Renderer *renderer)
+    {
+        this->renderer=renderer;
+        buttons.push_back({50,20,100,40});
+        buttons.push_back({600,200,300,40});
+        buttons.push_back({600,260,300,40});
+        buttons.push_back({600,320,300,40});
+        buttons.push_back({600,380,300,40});
+        buttons.push_back({600,440,300,40});
+        focus.push_back(false);
+        focus.push_back(false);
+        focus.push_back(false);
+        focus.push_back(false);
+        focus.push_back(false);
+        if (TTF_Init()<0) cout<<"to hell with init"<<endl;
+        font = TTF_OpenFont("Xanadu.ttf", 25);
+        if (font== nullptr)cout<<"Hell  "<< TTF_GetError()<<endl;
+        bigfont = TTF_OpenFont("Xanadu.ttf",32);
+        if (bigfont== nullptr)cout<<"Hell  "<< TTF_GetError()<<endl;
+        color = { 242, 226, 53 };
+        highlight={48, 209, 48};
+        SDL_Surface *temp=SDL_LoadBMP("ryu.bmp");
+        background=SDL_CreateTextureFromSurface(renderer,temp);
+        SDL_FreeSurface(temp);
+    }
+
+
+
+void menu::show_button(int x, string text)
+    {
+        SDL_Rect current=buttons[x];
+        SDL_Surface * surface = TTF_RenderText_Solid(((focus[x])?bigfont:font),text.c_str(),((focus[x])?highlight:color));
+        SDL_Texture * texture = SDL_CreateTextureFromSurface(renderer, surface);
+        int texW = 0;
+        int texH = 0;
+        SDL_QueryTexture(texture, NULL, NULL, &texW, &texH);
+        current.x=current.x+(current.w-texW)/2;
+        current.y=current.y+(current.h-texH)/2;
+        current.w=texW;
+        current.h=texH;
+        SDL_RenderCopy(renderer, texture, NULL,&current);
+        SDL_FreeSurface(surface);
+        SDL_DestroyTexture(texture);
+    }
+
+
+void menu::back()
+    {
+        two_on_one=trace_back.back().two_on_one;
+        net=trace_back.back().net;
+        single_player=trace_back.back().single_player;
+        team_red=trace_back.back().team_red;
+        current_level=trace_back.back().currentlevel;
+        trace_back.pop_back();
+    }
+
+
+
 
 
 

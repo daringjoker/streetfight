@@ -91,9 +91,6 @@
 network::network(player& self, player& opponent, bool host):
 self{self},opponent{opponent},host{host}
     {
-        th1=std::thread(server,this);
-        cout<<"opponents ip is "<<opponent_ip<<endl;
-        cout<<"i am standing towards "<<(opponent.left?"left":"right")<<endl;
     }
 
 
@@ -227,6 +224,8 @@ void network::handshake()
 
 void network::initialize()
     {
+        cout<<"initializing"<<endl;
+        th1=std::thread(server,this);
         if (host)
         {
             respond();

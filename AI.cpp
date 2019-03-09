@@ -238,23 +238,23 @@ void AI::drive()
 {
     state newstate = calc_state();
     action action1 = chooseaction(newstate);
-
-    if (gencount % 1000 == 0)
-    {
-        system("clear");
-        printf("turncount:- %lld \nstate:- {%d,%d,%d}\n", this->gencount,newstate.distance,newstate.my_action,newstate.opp_action);;
-        printf("idle count         : %lld\n", no_of_idle_choosen);
-        printf("jump count           : %lld\n", no_of_jump_choosen);
-        printf("left count         : %lld\n", no_of_left_choosen);
-        printf("right count        : %lld\n", no_of_right_choosen);
-        printf("kick choosen count : %lld\n", no_of_kick_choosen);
-        printf("punch choosen count : %lld\n", no_of_punch_choosen);
-        printf("q length : %ld s \n", q.size());
-        printf("q size : %ld Bytes or %f KB\n", q.size() * sizeof(key_value), q.size() * sizeof(key_value) / 1024.0);
-        printf("=======================================================\n\n");
-        //            printf("actionchoosen : %d\n\n", action1);
-    }
-//    if (gencount%10000==0)dump();
+        /*
+            if (gencount % 1000 == 0)
+            {
+                system("clear");
+                printf("turncount:- %lld \nstate:- {%d,%d,%d}\n", this->gencount,newstate.distance,newstate.my_action,newstate.opp_action);;
+                printf("idle count         : %lld\n", no_of_idle_choosen);
+                printf("jump count           : %lld\n", no_of_jump_choosen);
+                printf("left count         : %lld\n", no_of_left_choosen);
+                printf("right count        : %lld\n", no_of_right_choosen);
+                printf("kick choosen count : %lld\n", no_of_kick_choosen);
+                printf("punch choosen count : %lld\n", no_of_punch_choosen);
+                printf("q length : %ld s \n", q.size());
+                printf("q size : %ld Bytes or %f KB\n", q.size() * sizeof(key_value), q.size() * sizeof(key_value) / 1024.0);
+                printf("=======================================================\n\n");
+                //            printf("actionchoosen : %d\n\n", action1);
+            }
+        //    if (gencount%10000==0)dump();*/
     switch (action1)
     {
     case action::cidle:
