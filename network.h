@@ -31,13 +31,12 @@ class network
         player & opponent;
         bool host;
         bool scanning= true;
-        network(player &self,player &opponent,bool host);
+        network(player &self,player &opponent,bool host=false);
         void respond();
         void scan();
         void handshake();
         void send_state();
-        void receive();
-        void drive();
+        void initialize();
 
 
     };

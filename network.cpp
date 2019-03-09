@@ -92,14 +92,6 @@ network::network(player& self, player& opponent, bool host):
 self{self},opponent{opponent},host{host}
     {
         th1=std::thread(server,this);
-        if (host)
-        {
-            respond();
-        }
-        else
-        {
-            scan();
-        }
         cout<<"opponents ip is "<<opponent_ip<<endl;
         cout<<"i am standing towards "<<(opponent.left?"left":"right")<<endl;
     }
@@ -157,18 +149,6 @@ void network::send_state()
     }
 
 
-
-void network::receive()
-    {
-
-    }
-
-
-
-void network::drive()
-    {
-
-    }
 
 
 
@@ -241,4 +221,18 @@ void network::handshake()
         }
         cout<<"handshake complete from host"<<endl;
         close(response_socket);
+    }
+
+
+
+void network::initialize()
+    {
+        if (host)
+        {
+            respond();
+        }
+        else
+        {
+            scan();
+        }
     }

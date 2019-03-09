@@ -12,6 +12,7 @@
 #include "player.h"
 #include "AI.h"
 #include "network.h"
+#include "menu.h"
 bool running= true;
 using namespace std;
 void handle_event(player &p1,player &p2)
@@ -70,27 +71,31 @@ int main()
         SDL_Init(SDL_INIT_EVERYTHING);
         SDL_Window *win=SDL_CreateWindow("Street fight Neo",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,1000,600,SDL_WINDOW_SHOWN);
         SDL_Renderer *Ren=SDL_CreateRenderer(win,0,1);
+        menu mainmenu(Ren);
+        mainmenu.display();
         SDL_Surface *temp=SDL_LoadBMP("stage.bmp");
         SDL_Texture *stage=SDL_CreateTextureFromSurface(Ren,temp);
         SDL_FreeSurface(temp);
         player dummy(Ren);
-        bool host;
-        cout<<"Become the host? ";
-        cin>> host;
-        player opponent(Ren,!host);
-        player self(Ren,host);
-        //AI computer1(opponent,self);
+        player self(Ren,!mainmenu.team_red);
+        player opponent(Ren,mainmenu.team_red);
+        AI computer1(opponent,self);
         opponent.set_opponent(&self);
         self.set_opponent(&opponent);
-        network net(opponent,self,host);
+        network net(opponent, self, mainmenu.team_red);
+        if (mainmenu.net)
+        {
+            net.initialize();
+        }
         while (running)
         {
-            handle_event(self,dummy);
-            //computer1.drive();
+            if (!mainmenu.two_on_one) handle_event(self,dummy);
+            if (mainmenu.two_on_one) handle_event(self,opponent);
+            if (mainmenu.single_player) computer1.drive();
+            if (mainmenu.net) net.send_state();
             SDL_RenderCopy(Ren, stage, nullptr, nullptr);
             self.update();
             opponent.update();
-            net.send_state();
             SDL_RenderPresent(Ren);
             SDL_Delay(25);
         }
