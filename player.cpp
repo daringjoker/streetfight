@@ -193,12 +193,13 @@ void player::_kick()
 
 void player::render(SDL_Rect* source, SDL_Rect* dest)
     {
-
-        SDL_Rect healthrect={x,dest->y-25,100,10};
+        SDL_Rect healthrect;
+        if (left) healthrect={100,50,300,25};
+        else healthrect={600,50,300,25};
         if (left) SDL_SetRenderDrawColor(renderer,0,0,255,50);
         else SDL_SetRenderDrawColor(renderer,255,0,0,50);
         SDL_RenderDrawRect(renderer,&healthrect);
-        healthrect.w=int(health);
+        healthrect.w=int((health/100.0)*300);
         if (this->health>=0)SDL_RenderFillRect(renderer,&healthrect);
         SDL_RenderCopyEx(renderer, spritesheet,source, dest,0,NULL,flip);
     }
@@ -249,7 +250,7 @@ void player::update()
 
 void player::walkf()
     {
-        if (current_action==cidle)
+        if (current_action==cidle||current_action==cwalkb)
         {
             noted=false;
             current_action = cwalkf;
@@ -262,7 +263,7 @@ void player::walkf()
 void player::walkb()
     {
         //opponent->walkf();
-        if (current_action==cidle)
+        if (current_action==cidle||current_action==cwalkf)
         {
             noted=false;
             current_action = cwalkb;
