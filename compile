@@ -1,0 +1,13 @@
+#!/bin/sh
+dpkg -s "libsdl2-dev" > /dev/null
+
+if [ $? -ne 0 ]; then
+    sudo apt install libsdl2-dev -y ;
+fi
+dpkg -s "libsdl2-ttf-dev" > /dev/null
+
+if [ $? -ne 0 ]; then
+    sudo apt install libsdl2-ttf-dev -y ;
+fi
+g++ -o streetfight main.cpp player.cpp player.h AI.h AI.cpp network.cpp network.h ipgrab.cpp ipgrab.h menu.cpp menu.h -lSDL2 -lSDL2main -lpthread -lSDL2_ttf
+./streetfight

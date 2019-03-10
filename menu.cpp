@@ -23,6 +23,7 @@ void menu::handle_event()
                     {
                         case SDLK_q:
                             showing= false;
+                            exit(0);
                     }
                 case SDL_MOUSEMOTION:
                     for(int index=0;index<buttons.size();index++)
@@ -82,7 +83,7 @@ void menu::display()
                     break;
             }
             SDL_RenderPresent(renderer);
-            SDL_Delay(150);
+            SDL_Delay(20);
         }
         return;
     }
@@ -200,7 +201,7 @@ menu::menu(SDL_Renderer *renderer)
         if (TTF_Init()<0) cout<<"to hell with init"<<endl;
         font = TTF_OpenFont("Xanadu.ttf", 25);
         if (font== nullptr)cout<<"Hell  "<< TTF_GetError()<<endl;
-        bigfont = TTF_OpenFont("Xanadu.ttf",32);
+        bigfont = TTF_OpenFont("Xanadu.ttf",27);
         if (bigfont== nullptr)cout<<"Hell  "<< TTF_GetError()<<endl;
         color = { 242, 226, 53 };
         highlight={48, 209, 48};
